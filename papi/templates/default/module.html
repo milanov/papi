@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:py="http://genshi.edgewall.org/">
+  <head>
+    <meta charset="utf-8" />
+    <title>API Documentation for ${project_name}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/google-code-prettify/prettify.css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet" />
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body onload="prettyPrint()">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">${project_name}</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="about.html">About</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+          <div class="span3">
+            <div class="well sidebar-nav">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Module Index</h4></li>
+                <li py:for="module in module_tree">
+                  <a href="${module.__name__}.html">${module.__name__}</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="well sidebar-nav" py:if="resource.submodules">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Submodules</h4></li>
+                <li py:for="submod in resource.submodules">
+                  <a href="${submod.name}.html">${submod.short_name}</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="well sidebar-nav" py:if="resource.classes">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Classes</h4></li>
+                <li py:for="cls in resource.classes">
+                  <a href="${cls.name}.html">${cls.name}</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="well sidebar-nav" py:if="resource.functions">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Functions</h4></li>
+                <li py:for="func in resource.functions">
+                  <a href="#${func.name}">${func.name}</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="well sidebar-nav" py:if="resource.attributes">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Attributes</h4></li>
+                <li py:for="attr in resource.attributes">
+                  <a href="#${attr.name}">${attr.name}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="span9">
+            <h2>Module: ${resource.short_name}</h2>
+
+            <py:if test="resource.submodules">
+              <hr />
+              <section id="submodules">
+                <h3>Submodules</h3>
+                <py:for each="submod in resource.submodules">
+                  <h4><a href="${submod.name}.html">${submod.short_name}</a></h4>
+                  <p>${submod.doc}</p>
+                </py:for>
+              </section>
+            </py:if>
+
+            <py:if test="resource.classes">
+              <hr />
+              <section id="classes">
+                <h3>Classes</h3>
+                <py:for each="cls in resource.classes">
+                  <h4><a href="${cls.name}.html">${cls.name}</a></h4>
+                  <p>${cls.doc}</p>
+                </py:for>
+              </section>
+            </py:if>
+
+            <py:if test="resource.functions">
+              <hr />
+              <section id="functions">
+                <h3>Functions</h3>
+                <div class="function source" py:for="func in resource.functions">
+                  <h4 id="${func.name}">
+                    ${func.name} <span class="muted">${func.signature}</span>
+                    <small><a class="view-source">source</a></small>
+                  </h4>
+                  <p>${func.doc}</p>
+                  <pre class="source-code hide prettyprint">${func.code}</pre>
+                </div>
+              </section>
+            </py:if>
+
+            <py:if test="resource.attributes">
+              <hr />
+              <section id="attributes">
+                <h3>Attributes</h3>
+                <py:for each="attr in resource.attributes">
+                  <h5 id="${attr.name}">${attr.name} = ${attr.value}</h5>
+                </py:for>
+              </section>
+            </py:if>
+          </div>
+      </div><!--/row-->
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+    <script type="text/javascript" src="js/google-code-prettify/prettify.js"></script>
+  </body>
+</html>

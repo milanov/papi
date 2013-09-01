@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>API Documentation for papi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/google-code-prettify/prettify.css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body onload="prettyPrint()">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">papi</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="about.html">About</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+          <div class="span3">
+            <div class="well sidebar-nav">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Module Index</h4></li>
+                <li>
+                  <a href="papi.html">papi</a>
+                </li><li>
+                  <a href="papi.helpers.html">papi.helpers</a>
+                </li><li>
+                  <a href="papi.output_generators.html">papi.output_generators</a>
+                </li><li>
+                  <a href="papi.output_generators.html_output.html">papi.output_generators.html_output</a>
+                </li><li>
+                  <a href="papi.project.html">papi.project</a>
+                </li><li>
+                  <a href="papi.resource_objects.html">papi.resource_objects</a>
+                </li>
+              </ul>
+            </div>
+            <div class="well sidebar-nav">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Methods</h4></li>
+                <li>
+                  <a href="#__init__">__init__</a>
+                </li><li>
+                  <a href="#_get_module_tree">_get_module_tree</a>
+                </li><li>
+                  <a href="#_get_modules">_get_modules</a>
+                </li>
+              </ul>
+            </div>
+            <div class="well sidebar-nav">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Attributes</h4></li>
+                <li>
+                  <a href="#docsdir">docsdir</a>
+                </li><li>
+                  <a href="#module_tree">module_tree</a>
+                </li><li>
+                  <a href="#modules">modules</a>
+                </li><li>
+                  <a href="#name">name</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="span9">
+            <h2>Class: Resource</h2>
+              <hr />
+              <section id="methods">
+                <h3>Methods</h3>
+                <div class="function source">
+                  <h4 id="__init__">
+                    __init__ <span class="muted">(self, path)</span>
+                    <small><a class="view-source">source</a></small>
+                  </h4>
+                  <p></p>
+                  <pre class="source-code hide prettyprint">    def __init__(self, path):
+        sys.path.append(dirname(path))
+
+        self._name, _ = splitext(basename(path))
+        self._module_tree = self._get_module_tree(path)
+        self._modules = self._get_modules()
+</pre>
+                </div><div class="function source">
+                  <h4 id="_get_module_tree">
+                    _get_module_tree <span class="muted">(self, path)</span>
+                    <small><a class="view-source">source</a></small>
+                  </h4>
+                  <p></p>
+                  <pre class="source-code hide prettyprint">    def _get_module_tree(self, path):
+        module_tree = [safe_import(self._name)]
+
+        prefix = self._name + "."
+        dummy = lambda x: x
+        for _, modname, ispkg in pkgutil.walk_packages([path], prefix, dummy):
+            module_tree.append(safe_import(modname))
+        return list(filter(None, module_tree))
+</pre>
+                </div><div class="function source">
+                  <h4 id="_get_modules">
+                    _get_modules <span class="muted">(self)</span>
+                    <small><a class="view-source">source</a></small>
+                  </h4>
+                  <p></p>
+                  <pre class="source-code hide prettyprint">    def _get_modules(self):
+        modules = []
+        for mod in self._module_tree:
+            submods = extract_submodules(mod, self.module_tree)
+            simple_submods = [SimpleModuleObject(subm) for subm in submods]
+            module_obj = ModuleObject(mod)
+            module_obj.submodules = simple_submods
+            modules.append(module_obj)
+        return modules
+</pre>
+                </div>
+              </section>
+              <hr />
+              <section id="attributes">
+                <h3>Attributes</h3>
+                  <h5 id="docsdir">docsdir = &lt;property object at 0x7f22de906d08&gt;</h5>
+                  <h5 id="module_tree">module_tree = &lt;property object at 0x7f22de906c58&gt;</h5>
+                  <h5 id="modules">modules = &lt;property object at 0x7f22de906cb0&gt;</h5>
+                  <h5 id="name">name = &lt;property object at 0x7f22de906998&gt;</h5>
+              </section>
+          </div>
+      </div><!--/row-->
+    </div> <!-- /container -->
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+    <script type="text/javascript" src="js/google-code-prettify/prettify.js"></script>
+  </body>
+</html>

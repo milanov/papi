@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>API Documentation for papi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/google-code-prettify/prettify.css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body onload="prettyPrint()">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">papi</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="about.html">About</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+          <div class="span3">
+            <div class="well sidebar-nav">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Module Index</h4></li>
+                <li>
+                  <a href="papi.html">papi</a>
+                </li><li>
+                  <a href="papi.helpers.html">papi.helpers</a>
+                </li><li>
+                  <a href="papi.output_generators.html">papi.output_generators</a>
+                </li><li>
+                  <a href="papi.output_generators.html_output.html">papi.output_generators.html_output</a>
+                </li><li>
+                  <a href="papi.project.html">papi.project</a>
+                </li><li>
+                  <a href="papi.resource_objects.html">papi.resource_objects</a>
+                </li>
+              </ul>
+            </div>
+            <div class="well sidebar-nav">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Methods</h4></li>
+                <li>
+                  <a href="#__init__">__init__</a>
+                </li>
+              </ul>
+            </div>
+            <div class="well sidebar-nav">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Attributes</h4></li>
+                <li>
+                  <a href="#attributes">attributes</a>
+                </li><li>
+                  <a href="#classes">classes</a>
+                </li><li>
+                  <a href="#code">code</a>
+                </li><li>
+                  <a href="#doc">doc</a>
+                </li><li>
+                  <a href="#functions">functions</a>
+                </li><li>
+                  <a href="#name">name</a>
+                </li><li>
+                  <a href="#short_name">short_name</a>
+                </li><li>
+                  <a href="#submodules">submodules</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="span9">
+            <h2>Class: ModuleObject</h2>
+              <hr />
+              <section id="methods">
+                <h3>Methods</h3>
+                <div class="function source">
+                  <h4 id="__init__">
+                    __init__ <span class="muted">(self, module)</span>
+                    <small><a class="view-source">source</a></small>
+                  </h4>
+                  <p></p>
+                  <pre class="source-code hide prettyprint">    def __init__(self, module):
+        sysmodule = sys.modules[module.__name__]
+        super().__init__(sysmodule)
+
+        self._short_name = super().name.split(".")[-1]
+        self._submodules = []
+
+        attributes = extract_attributes(sysmodule)
+        self._attributes = [AttributeObject(attr) for attr in attributes]
+
+        spr = super()
+        isclass = lambda m: inspect.isclass(m) and m.__module__ == spr.name
+        classes = inspect.getmembers(sysmodule, isclass)
+        self._classes = [ClassObject(cls[1]) for cls in classes]
+
+        isfunc = lambda m: inspect.isfunction(m) and m.__module__ == spr.name
+        functions = inspect.getmembers(sysmodule, isfunc)
+        self._functions = [FunctionObject(func[1]) for func in functions]
+</pre>
+                </div>
+              </section>
+              <hr />
+              <section id="attributes">
+                <h3>Attributes</h3>
+                  <h5 id="attributes">attributes = &lt;property object at 0x7f22de481100&gt;</h5>
+                  <h5 id="classes">classes = &lt;property object at 0x7f22de906f70&gt;</h5>
+                  <h5 id="code">code = &lt;property object at 0x7f22de906e68&gt;</h5>
+                  <h5 id="doc">doc = &lt;property object at 0x7f22de906e10&gt;</h5>
+                  <h5 id="functions">functions = &lt;property object at 0x7f22de4810a8&gt;</h5>
+                  <h5 id="name">name = &lt;property object at 0x7f22de906db8&gt;</h5>
+                  <h5 id="short_name">short_name = &lt;property object at 0x7f22de906f18&gt;</h5>
+                  <h5 id="submodules">submodules = &lt;property object at 0x7f22de481050&gt;</h5>
+              </section>
+          </div>
+      </div><!--/row-->
+    </div> <!-- /container -->
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+    <script type="text/javascript" src="js/google-code-prettify/prettify.js"></script>
+  </body>
+</html>

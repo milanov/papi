@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>API Documentation for papi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!-- Le styles -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/google-code-prettify/prettify.css" />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body onload="prettyPrint()">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">papi</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="about.html">About</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+          <div class="span3">
+            <div class="well sidebar-nav">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Module Index</h4></li>
+                <li>
+                  <a href="papi.html">papi</a>
+                </li><li>
+                  <a href="papi.helpers.html">papi.helpers</a>
+                </li><li>
+                  <a href="papi.output_generators.html">papi.output_generators</a>
+                </li><li>
+                  <a href="papi.output_generators.html_output.html">papi.output_generators.html_output</a>
+                </li><li>
+                  <a href="papi.project.html">papi.project</a>
+                </li><li>
+                  <a href="papi.resource_objects.html">papi.resource_objects</a>
+                </li>
+              </ul>
+            </div>
+            <div class="well sidebar-nav">
+              <ul class="nav nav-list">
+                <li class="nav-header"><h4>Methods</h4></li>
+                <li>
+                  <a href="#__init__">__init__</a>
+                </li><li>
+                  <a href="#_get_output_destination">_get_output_destination</a>
+                </li><li>
+                  <a href="#_get_output_generator">_get_output_generator</a>
+                </li><li>
+                  <a href="#_get_theme_dir">_get_theme_dir</a>
+                </li><li>
+                  <a href="#generate">generate</a>
+                </li><li>
+                  <a href="#open_in_browser">open_in_browser</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="span9">
+            <h2>Class: Papi</h2>
+              <hr />
+              <section id="methods">
+                <h3>Methods</h3>
+                <div class="function source">
+                  <h4 id="__init__">
+                    __init__ <span class="muted">(self, options)</span>
+                    <small><a class="view-source">source</a></small>
+                  </h4>
+                  <p></p>
+                  <pre class="source-code hide prettyprint">    def __init__(self, options):
+        self._theme_dir = self._get_theme_dir(options.theme)
+        output_format = options.output_format
+        self._output_generator = self._get_output_generator(output_format)
+        self._format = options.format
+        self._destination = self._get_output_destination(options.destination)
+        self._resources = []
+
+        for resource in expand_paths(options.resources):
+            is_resource = isfile(resource) or ispackage_path(resource)
+            if exists(resource) and is_resource:
+                resource = Resource(resource)
+                self._resources.append(resource)
+            else:
+                warning = "Resouce %s is not a package or module." % resource
+                logger.warning(warning)
+</pre>
+                </div><div class="function source">
+                  <h4 id="_get_output_destination">
+                    _get_output_destination <span class="muted">(self, destination)</span>
+                    <small><a class="view-source">source</a></small>
+                  </h4>
+                  <p></p>
+                  <pre class="source-code hide prettyprint">    def _get_output_destination(self, destination):
+        destination = abspath(destination)
+        if not (destination and exists(destination) and isdir(destination)):
+            destination = getcwd()
+
+        return destination
+</pre>
+                </div><div class="function source">
+                  <h4 id="_get_output_generator">
+                    _get_output_generator <span class="muted">(self, output_format)</span>
+                    <small><a class="view-source">source</a></small>
+                  </h4>
+                  <p></p>
+                  <pre class="source-code hide prettyprint">    def _get_output_generator(self, output_format):
+        generators = {'html': html_output.HTMLOutput}
+        if output_format not in generators:
+            warning = 'Invalid output format: %s' % output_format
+            logger.warning(warning)
+            output_format = DEFAULT_OUTPUT_FORMAT
+
+        return generators[output_format]
+</pre>
+                </div><div class="function source">
+                  <h4 id="_get_theme_dir">
+                    _get_theme_dir <span class="muted">(self, theme_name)</span>
+                    <small><a class="view-source">source</a></small>
+                  </h4>
+                  <p></p>
+                  <pre class="source-code hide prettyprint">    def _get_theme_dir(self, theme_name):
+        templates_dir = join(dirname(abspath(__file__)), "templates")
+        theme_dir = join(templates_dir, theme_name)
+        if not exists(theme_dir) or not isdir(theme_dir):
+            theme_dir = join(template_dir, DEFAULT_THEME)
+        return theme_dir
+</pre>
+                </div><div class="function source">
+                  <h4 id="generate">
+                    generate <span class="muted">(self)</span>
+                    <small><a class="view-source">source</a></small>
+                  </h4>
+                  <p></p>
+                  <pre class="source-code hide prettyprint">    def generate(self):
+        for res in self._resources:
+            format = self._format
+            dest = self._destination
+            theme_dir = self._theme_dir
+            generator = self._output_generator(res, dest, format, theme_dir)
+            generator.generate()
+</pre>
+                </div><div class="function source">
+                  <h4 id="open_in_browser">
+                    open_in_browser <span class="muted">(self)</span>
+                    <small><a class="view-source">source</a></small>
+                  </h4>
+                  <p>Open a generated project's documentation in
+the system's default web browser.</p>
+                  <pre class="source-code hide prettyprint">    def open_in_browser(self):
+        """
+        Open a generated project's documentation in
+        the system's default web browser.
+        """
+        import webbrowser
+        from urllib.request import pathname2url
+        for res in self._resources:
+            pathname = join(self._destination, res.docsdir, res.name + '.html')
+            res_url = pathname2url(pathname)
+            webbrowser.open(res_url)
+</pre>
+                </div>
+              </section>
+          </div>
+      </div><!--/row-->
+    </div> <!-- /container -->
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+    <script type="text/javascript" src="js/google-code-prettify/prettify.js"></script>
+  </body>
+</html>
