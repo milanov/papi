@@ -3,10 +3,6 @@ PAPI command line interface.
 """
 
 from argparse import ArgumentParser
-
-import sys
-sys.path.append('/home/milan/Desktop/papi/')
-
 from papi.project import Papi
 
 

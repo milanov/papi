@@ -82,5 +82,5 @@ class Papi():
         templates_dir = join(dirname(abspath(__file__)), "templates")
         theme_dir = join(templates_dir, theme_name)
         if not exists(theme_dir) or not isdir(theme_dir):
-            theme_dir = join(template_dir, DEFAULT_THEME)
+            theme_dir = join(templates_dir, DEFAULT_THEME)
         return theme_dir
