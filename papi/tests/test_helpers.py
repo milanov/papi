@@ -1,6 +1,3 @@
-import sys
-sys.path.append('/home/milan/Desktop/papi/')
-
 import unittest
 from os import mkdir, remove, rmdir
 from os.path import abspath, join
@@ -102,6 +99,7 @@ class TestHelpers(unittest.TestCase):
       module_tree = [package_folder, package_folder.file_package, package_folder.inner_folder, package_folder.inner_folder.inner_file]
       actual = helpers.extract_submodules(package_folder, module_tree)
       self.assertEqual(set(expected), set(actual))
+
 
 if __name__ == '__main__' :
     unittest.main()
