@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+
+recursive-include papi/tests *
+recursive-include papi/templates *
+recursive-include docs *
+recursive-include
+
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
