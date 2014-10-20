@@ -71,8 +71,8 @@ def extract_attributes(module):
     """
     attributes = []
     for name, obj in inspect.getmembers(module, isattribute):
-            if visiblename(name):
-                attributes.append((name, obj))
+        if visiblename(name):
+            attributes.append((name, obj))
     return attributes
 
 
