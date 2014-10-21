@@ -38,9 +38,8 @@ class Papi():
             resource = Resource(resource)
             self._resource = resource
         else:
-            warning = "Resouce %s is not a package or module." % resource
-            logger.warning(warning)
-            exit()
+            error_message = "Resouce %s is not a package or module." % resource
+            sys.exit(error_message)
 
     def generate(self):
         format = self._format
