@@ -50,10 +50,9 @@ def cli():
         help="Specify docstring parser (restucturedtext, markdown, ...)"
     )
 
-    argparser.add_argument("resources", help="Specify Python resources")
+    argparser.add_argument("resource", help="Specify Python resource")
 
     args = argparser.parse_args()
-    args.resources = [m.strip() for m in args.resources.split(",")]
 
     project = Papi(args)
     project.generate()

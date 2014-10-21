@@ -31,24 +31,23 @@ class Papi():
         self._output_generator = self._get_output_generator(output_format)
         self._format = options.format
         self._destination = self._get_output_destination(options.destination)
-        self._resources = []
 
-        for resource in expand_paths(options.resources):
-            is_resource = isfile(resource) or ispackage_path(resource)
-            if exists(resource) and is_resource:
-                resource = Resource(resource)
-                self._resources.append(resource)
-            else:
-                warning = "Resouce %s is not a package or module." % resource
-                logger.warning(warning)
+        resource = expand_path(options.resource)
+        is_resource = isfile(resource) or ispackage_path(resource)
+        if exists(resource) and is_resource:
+            resource = Resource(resource)
+            self._resource = resource
+        else:
+            warning = "Resouce %s is not a package or module." % resource
+            logger.warning(warning)
+            exit()
 
     def generate(self):
-        for res in self._resources:
-            format = self._format
-            dest = self._destination
-            theme_dir = self._theme_dir
-            generator = self._output_generator(res, dest, format, theme_dir)
-            generator.generate()
+        format = self._format
+        dest = self._destination
+        theme_dir = self._theme_dir
+        generator = self._output_generator(self._resource, dest, format, theme_dir)
+        generator.generate()
 
     def open_in_browser(self):
         """
@@ -57,10 +56,10 @@ class Papi():
         """
         import webbrowser
         from urllib.request import pathname2url
-        for res in self._resources:
-            pathname = join(self._destination, res.docsdir, res.name + '.html')
-            res_url = pathname2url(pathname)
-            webbrowser.open(res_url)
+
+        pathname = join(self._destination, self._resource.docsdir, self._resource.name + '.html')
+        res_url = pathname2url(pathname)
+        webbrowser.open(res_url)
 
     def _get_output_generator(self, output_format):
         generators = {'html': html_output.HTMLOutput}

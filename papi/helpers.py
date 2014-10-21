@@ -29,12 +29,12 @@ def ispackage_path(path):
     return False
 
 
-def expand_paths(paths):
+def expand_path(path):
     """
-    Expand a list of paths to their absolute ones.
+    Expand a path to its absolute one.
 
     """
-    return [os.path.abspath(path) for path in paths]
+    return os.path.abspath(path)
 
 
 def safe_import(module):
