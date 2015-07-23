@@ -26,6 +26,7 @@ setup(
     url='https://github.com/milanov/papi',
     packages=[
         'papi',
+        'papi.output_generators'
     ],
     include_package_data=True,
     install_requires=requirements,
